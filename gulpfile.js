@@ -23,7 +23,6 @@ var connect  = require('connect');
 var open     = require('open');
 
 // Server Settings
-var base     = '.';
 var root     = './app';
 var port     = 3000;
 var host     = 'localhost';
@@ -33,7 +32,7 @@ gulp.task('server', function () {
     var app = connect().use(connect.static(root));
 
     http.createServer(app).listen(port);
-    open(protocol + '://' + host + ':' + port);
+    open(protocol + '://' + host + ':' + port + '/index.html');
 });
 
 // jshint task
@@ -47,17 +46,17 @@ gulp.task('jshint', function () {
 // 编译sass  
 
 gulp.task('sass', function () {
-    gulp.src('scss/**/*.scss')
+    gulp.src(root+'/scss/**/*.scss')
         .pipe(sass())
-        .pipe(gulp.dest('css'));
+        .pipe(gulp.dest(root+'/css'));
 });
 
 // 自动添加浏览器前缀
 // By default, Autoprefixer uses > 1%, last 2 versions, Firefox ESR, Opera 12.1
-gulp.task('prefixer', function () {
-    gulp.src('css/**/*.css')
+gulp.task('autoprefixer', function () {
+    gulp.src(root+'/css/**/*.css')
         .pipe(autoprefixer())
-        .pipe(gulp.dest('css'));
+        .pipe(gulp.dest(root+'/css'));
 });
 
 // 拼接、简化JS文件   
@@ -83,11 +82,11 @@ gulp.task('minifycss', function () {
 });
 
 // 默认任务   
-gulp.task('default', ['sass', 'prefixer'], function () {
-    // gulp.run('sass');
+gulp.task('default', ['sass', 'autoprefixer', 'server'], function () {
 
     // 监视scss文件的变化,并且执行sass
-    gulp.watch('scss/**/*.scss', ['sass', 'prefixer']);
+	// 如果scss文件夹为空，任务会中断
+    gulp.watch(root+'/scss/**/*.scss', ['sass', 'autoprefixer']);
 });
 // 构建任务
-gulp.task('build', ['jshint', 'minifyjs', 'sass', 'prefixer', 'minifycss']);
+gulp.task('build', ['jshint', 'minifyjs', 'sass', 'autoprefixer', 'minifycss']);
