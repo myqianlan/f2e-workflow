@@ -1,1 +1,39 @@
-.test{color:purple;text-align:center;font-size:36px;}
+﻿@charset "utf-8";
+
+/*更改盒模型规范*/
+*, *:before,*:after {
+  box-sizing: border-box;
+}
+body{
+  color: #f5f5f5;
+}
+header{
+  height: 80px;
+  background-color: #006dcc;
+  font-size: 35px;
+  text-align: center;
+}
+nav{
+  text-align: right;
+  li{
+    list-style: none;
+    background-color: forestgreen;
+    display: inline-block;
+    width: 20%;
+  }
+}
+section{
+  background-color: #006dcc;
+  margin-right: 100px;
+}
+aside{
+  background-color: forestgreen;
+  position: absolute;
+  top: 138px;
+  right: 0;
+  height: 173px;
+  width: 100px;
+}
+footer{
+  background-color: #006dcc;
+}
