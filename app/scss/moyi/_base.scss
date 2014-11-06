@@ -1,6 +1,6 @@
 @charset "UTF-8";
 //
-// @date    2014-11-04 09:14:52
+// @date    2014年11月6日14:05:08
 //
 // 优化字体渲染
 // http://www.feeldesignstudio.com/2013/05/text-rendering
@@ -72,13 +72,4 @@ $blank-step: 5;
 	.blank#{$blank-step*$i} {
 		height: #{$blank-step*$i}px;
 	}
-}
-// 常用类
-.fr {
-	float: right;
-	_display: inline;
-}
-.fl {
-	float: left;
-	_display: inline;
 }
