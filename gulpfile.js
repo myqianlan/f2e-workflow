@@ -47,7 +47,7 @@ gulp.task('jshint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-// 编译sass  
+// Compile SASS  
 
 gulp.task('sass', function() {
     gulp.src(root + '/scss/**/*.scss')
@@ -62,7 +62,7 @@ gulp.task('sass', function() {
         .pipe(gulp.dest(root + '/css'));
 });
 
-// 自动添加浏览器前缀
+// 自动添加浏览器前缀 & auto-inject into browsers 
 // By default, Autoprefixer uses > 1%, last 2 versions, Firefox ESR, Opera 12.1
 gulp.task('autoprefixer', function() {
     gulp.src(root + '/css/**/*.css')
@@ -70,7 +70,8 @@ gulp.task('autoprefixer', function() {
         .pipe(gulp.dest(root + '/css'));
 });
 
-// 拼接、简化JS文件   
+// 拼接、简化JS文件 
+// 未使用
 
 gulp.task('minifyjs', function() {
     gulp.src('js/**/*.js')
@@ -82,7 +83,7 @@ gulp.task('minifyjs', function() {
 });
 
 // 拼接、简化CSS文件   
-
+// 未使用
 gulp.task('minifycss', function() {
     gulp.src('css/**/*.css')
         .pipe(concat('all.css'))
@@ -90,6 +91,15 @@ gulp.task('minifycss', function() {
         .pipe(rename('all.min.css'))
         .pipe(minifycss())
         .pipe(gulp.dest('dist'));
+});
+//
+gulp.task('dev', ['sass', 'autoprefixer', 'browser-sync'], function() {
+
+    // 监视scss文件的变化,并且执行sass
+    // 如果scss文件夹为空，任务会中断
+    gulp.watch(root + '/scss/**/*.scss', ['sass', 'autoprefixer']);
+    //监视html和js文件
+    gulp.watch([root + "/*.html", root + "/js/**/*.js"], [browserSync.reload]);
 });
 
 // 默认任务   
