@@ -52,7 +52,6 @@ gulp.task('jshint', function() {
 gulp.task('sass', function() {
     gulp.src(root + '/scss/**/*.scss')
         .pipe(sass({
-            sourcemap: "file",
             sourcemapPath: '../scss',
             noCache: true
         }))
@@ -93,13 +92,11 @@ gulp.task('minifycss', function() {
         .pipe(gulp.dest('dist'));
 });
 //
-gulp.task('dev', ['sass', 'autoprefixer', 'browser-sync'], function() {
+gulp.task('dev', ['sass'], function() {
 
     // 监视scss文件的变化,并且执行sass
     // 如果scss文件夹为空，任务会中断
-    gulp.watch(root + '/scss/**/*.scss', ['sass', 'autoprefixer']);
-    //监视html和js文件
-    gulp.watch([root + "/*.html", root + "/js/**/*.js"], [browserSync.reload]);
+    gulp.watch(root + '/scss/**/*.scss', ['sass']);
 });
 
 // 默认任务   
