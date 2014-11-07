@@ -52,6 +52,7 @@ gulp.task('jshint', function() {
 gulp.task('sass', function() {
     gulp.src(root + '/scss/**/*.scss')
         .pipe(sass({
+            sourcemap: "file",
             sourcemapPath: '../scss',
             noCache: true
         }))
