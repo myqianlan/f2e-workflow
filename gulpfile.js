@@ -1,17 +1,15 @@
 ﻿/**
  * @author myqianlan
- * @date 2014年11月6日12:58:32
+ * @date 2014年11月19日17:12:44
  */
 // 包含gulp   
 var gulp = require('gulp');
 
 // 包含插件   
-// JS检查
-var jshint = require('gulp-jshint');
 // sass 编译
-var sass = require('gulp-ruby-sass');
-// 合并
-var concat = require('gulp-concat');
+var sass = require('gulp-sass');
+//sourcemaps
+var sourcemaps = require('gulp-sourcemaps');
 // 压缩JS
 var uglify = require('gulp-uglify');
 // 压缩CSS
@@ -39,30 +37,19 @@ gulp.task('server', function() {
     open(protocol + '://' + host + ':' + port + '/index.html');
 });
 
-// jshint task
-
-gulp.task('jshint', function() {
-    gulp.src('js/**/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
-
 // Compile SASS  
-
+// with node sass
 gulp.task('sass', function() {
     gulp.src(root + '/scss/**/*.scss')
+        .pipe(sourcemaps.init())
         .pipe(sass({
-            sourcemap: "file",
-            sourcemapPath: '../scss',
-            noCache: true
+            errLogToConsole: true
         }))
-        .on('error', function(err) {
-            console.log(err.message);
-        })
+        .pipe(sourcemaps.write('./maps',{debug: true, includeContent: false}))
         .pipe(gulp.dest(root + '/css'));
 });
 
-// 自动添加浏览器前缀 & auto-inject into browsers 
+// 自动添加浏览器前缀
 // By default, Autoprefixer uses > 1%, last 2 versions, Firefox ESR, Opera 12.1
 gulp.task('autoprefixer', function() {
     gulp.src(root + '/css/**/*.css')
@@ -70,31 +57,23 @@ gulp.task('autoprefixer', function() {
         .pipe(gulp.dest(root + '/css'));
 });
 
-// 拼接、简化JS文件 
-// 未使用
-
+// 压缩JS文件 
 gulp.task('minifyjs', function() {
-    gulp.src('js/**/*.js')
-        .pipe(concat('all.js'))
-        .pipe(gulp.dest('dist'))
-        .pipe(rename('all.min.js'))
+    gulp.src(root + '/js/**/*.js')
         .pipe(uglify())
-        .pipe(gulp.dest('dist'));
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest(root + '/dist/js'));
 });
 
-// 拼接、简化CSS文件   
-// 未使用
+// 压缩CSS文件   
 gulp.task('minifycss', function() {
-    gulp.src('css/**/*.css')
-        .pipe(concat('all.css'))
-        .pipe(gulp.dest('dist'))
-        .pipe(rename('all.min.css'))
+    gulp.src(root + '/css/**/*.css')
         .pipe(minifycss())
-        .pipe(gulp.dest('dist'));
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest(root +'/dist/css'));
 });
 //
 gulp.task('dev', ['sass'], function() {
-
     // 监视scss文件的变化,并且执行sass
     // 如果scss文件夹为空，任务会中断
     gulp.watch(root + '/scss/**/*.scss', ['sass']);
@@ -118,4 +97,4 @@ gulp.task('dev', ['sass'], function() {
     gulp.watch(root + '/scss/**/*.scss', ['sass']);
 });
 // 构建任务
-gulp.task('build', ['jshint', 'minifyjs', 'sass', 'autoprefixer', 'minifycss']);
+gulp.task('build', ['minifyjs', 'sass', 'autoprefixer', 'minifycss']);
