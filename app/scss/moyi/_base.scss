@@ -42,6 +42,14 @@ th {
 body, button, input, select, textarea {
     font-family: Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
 }
+/*更改盒模型规范*/
+// 如需兼容IE6~7,请写hack
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 %clearfix{
 	*zoom: 1;
 	&:before,

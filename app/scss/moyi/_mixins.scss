@@ -1,6 +1,6 @@
 @charset "UTF-8";
 //
-// @date    2014-11-04 09:22:12
+// @date    2014年11月20日11:02:20
 //
 @function getButtonColor($color) {
 	@return if( lightness($color) > 50, #333, #FFF );
@@ -127,4 +127,31 @@
   background: linear-gradient(to bottom, $color-from 0%, $color-to 100%); // W3C
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color-from', endColorstr='$color-to',GradientType=0 ); // IE6-9
 
+}
+
+// triangle 小三角
+@mixin triangle($direction, $size, $borderColor ) {
+  content:"";
+  height: 0;
+  width: 0;
+  @if $direction == top {
+    border-bottom:$size solid $borderColor;
+    border-left:$size dashed transparent;
+    border-right:$size dashed transparent;
+  } 
+  @else if $direction == right {
+    border-left:$size solid $borderColor;
+    border-top:$size dashed transparent;
+    border-bottom:$size dashed transparent;
+  } 
+  @else if $direction == bottom {
+    border-top:$size solid $borderColor;
+    border-left:$size dashed transparent;
+    border-right:$size dashed transparent;
+  } 
+  @else if $direction == left {
+    border-right:$size solid $borderColor;
+    border-top:$size dashed transparent;
+    border-bottom:$size dashed transparent;
+  }
 }
