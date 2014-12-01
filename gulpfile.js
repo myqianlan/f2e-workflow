@@ -8,8 +8,6 @@ var gulp = require('gulp');
 // 包含插件   
 // sass 编译
 var sass = require('gulp-sass');
-//sourcemaps
-var sourcemaps = require('gulp-sourcemaps');
 // 压缩JS
 var uglify = require('gulp-uglify');
 // 压缩CSS
@@ -18,6 +16,8 @@ var minifycss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 // 自动加CSS浏览器前缀
 var autoprefixer = require('gulp-autoprefixer');
+//清除
+var clean = require('gulp-clean');
 
 // Server
 var http = require('http');
@@ -41,11 +41,9 @@ gulp.task('server', function() {
 // with node sass
 gulp.task('sass', function() {
     gulp.src(root + '/scss/**/*.scss')
-        .pipe(sourcemaps.init())
         .pipe(sass({
             errLogToConsole: true
         }))
-        .pipe(sourcemaps.write('./maps',{debug: true, includeContent: false}))
         .pipe(gulp.dest(root + '/css'));
 });
 
@@ -57,37 +55,47 @@ gulp.task('autoprefixer', function() {
         .pipe(gulp.dest(root + '/css'));
 });
 
+// clean
+gulp.task('clean', function(){
+    gulp.src(root + '/dist', { read:false })
+        .pipe(clean());
+});
+
 // 压缩JS文件 
 gulp.task('minifyjs', function() {
     gulp.src(root + '/js/**/*.js')
         .pipe(uglify())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest(root + '/dist/js'));
+        .pipe(rename({
+            suffix: '.min-' + new Date().getTime()
+        }))
+        .pipe(gulp.dest(root + '/dist'));
 });
 
 // 压缩CSS文件   
 gulp.task('minifycss', function() {
     gulp.src(root + '/css/**/*.css')
         .pipe(minifycss())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest(root +'/dist/css'));
+        .pipe(rename({
+            suffix: '.min-' + new Date().getTime()
+        }))
+        .pipe(gulp.dest(root + '/dist'));
 });
 //
-gulp.task('dev', ['sass'], function() {
+gulp.task('dev', ['sass', 'autoprefixer'], function() {
     // 监视scss文件的变化,并且执行sass
     // 如果scss文件夹为空，任务会中断
-    gulp.watch(root + '/scss/**/*.scss', ['sass']);
+    gulp.watch(root + '/scss/**/*.scss', ['sass', 'autoprefixer']);
 });
 
 // 默认任务   
 gulp.task('default', ['sdev']);
 
 // 开发任务
-gulp.task('sdev', ['sass', 'server'], function() {
+gulp.task('sdev', ['sass', 'autoprefixer', 'server'], function() {
 
     // 监视scss文件的变化,并且执行sass
     // 如果scss文件夹为空，任务可能会中断
-    gulp.watch(root + '/scss/**/*.scss', ['sass']);
+    gulp.watch(root + '/scss/**/*.scss', ['sass', 'autoprefixer']);
 });
 // 不带本地服务器
 gulp.task('dev', ['sass'], function() {
