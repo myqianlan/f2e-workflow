@@ -14,7 +14,7 @@
 3.最后，运行 
 
 ```javascript
-    $ gulp dev
+    $ gulp
 ```
 
 > 1.严禁直接修改CSS文件，除库以外的CSS文件均由sass编译过来
