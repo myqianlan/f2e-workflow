@@ -49,10 +49,10 @@ padding: 0 $padding 0 $padding;
 			background-color: orange;
 			border: 1px solid teal;
 			box-sizing: border-box;
+			word-break: break-word;
 			}
 		.grid-offset-#{$i}
 			{
-			// width: $grid;
 			float: left;
 			margin-left: $grid;
 			background-color: orange;
@@ -63,10 +63,22 @@ padding: 0 $padding 0 $padding;
 	@else
 	{
 		$grid: $grid;
-		.grid#{$i}
+		.grid-#{$i}
 			{
 			width: $grid;
 			float: left;
+			background-color: orange;
+			border: 1px solid teal;
+			box-sizing: border-box;
+			word-break: break-word;
+			}
+		.grid-offset-#{$i}
+			{
+			float: left;
+			margin-left: $grid;
+			background-color: orange;
+			border: 1px solid teal;
+			box-sizing: border-box;
 			}
 	}
 }
