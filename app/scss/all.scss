@@ -1,5 +1,4 @@
 ﻿@charset "utf-8";
-@import "common/normalize";
 /*更改盒模型规范*/
 *, *:before, *:after {
     -webkit-box-sizing: border-box;
@@ -9,6 +8,7 @@
 
 body {
     color: #f5f5f5;
+    display: flex;
 }
 
 header {
