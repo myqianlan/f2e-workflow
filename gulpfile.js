@@ -117,7 +117,9 @@ gulp.task('imagemin', function() {
     return gulp.src(root + '/img/**/*')
         // Pass in options to the task
         .pipe(imagemin({
-            optimizationLevel: 5
+            optimizationLevel: 3,//png
+            progressive: true,//jpg
+            interlaced: true//gif
         }))
         .pipe(gulp.dest(root + '/_temp/img'));
 });
