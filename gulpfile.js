@@ -26,7 +26,7 @@
 ﻿
 /**
  * @author myqianlan
- * @update 2014年12月2日16:36:30
+ * @update 2014年12月9日14:54:53
  */
 // 包含gulp   
 var gulp = require('gulp');
@@ -64,10 +64,12 @@ var port = 3000;
 var host = 'localhost';
 var protocol = 'http';
 
+// Build Settings
+var build = './dist';
+
 
 gulp.task('server', function() {
     var app = connect().use(connect.static(root));
-
     http.createServer(app).listen(port);
     open(protocol + '://' + host + ':' + port + '/index.html');
 });
@@ -93,22 +95,21 @@ gulp.task('css', ['cleancss'], function() {
 // 压缩JS文件 
 gulp.task('minifyjs', function() {
     return gulp.src(root + '/js/**/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'))
         .pipe(uglify())
-        .pipe(rename({
-            suffix: '.min-' + new Date().getTime()
-        }))
         .pipe(gulp.dest(root + '/_temp/js'));
+});
+
+// JS语法检查
+gulp.task('jshint', function() {
+    return gulp.src(root + '/js/**/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
 });
 
 // 压缩CSS文件   
 gulp.task('minifycss', ['css'], function() {
     return gulp.src(root + '/css/**/*.css')
         .pipe(minifycss())
-        .pipe(rename({
-            suffix: '.min-' + new Date().getTime()
-        }))
         .pipe(gulp.dest(root + '/_temp/css'));
 });
 
@@ -117,9 +118,9 @@ gulp.task('imagemin', function() {
     return gulp.src(root + '/img/**/*')
         // Pass in options to the task
         .pipe(imagemin({
-            optimizationLevel: 3,//png
-            progressive: true,//jpg
-            interlaced: true//gif
+            optimizationLevel: 3, //png
+            progressive: true, //jpg
+            interlaced: true //gif
         }))
         .pipe(gulp.dest(root + '/_temp/img'));
 });
@@ -127,7 +128,7 @@ gulp.task('imagemin', function() {
 // 复制文件
 gulp.task('copy', ['minifyjs', 'minifycss', 'imagemin', 'copyvendor'], function() {
     return gulp.src(root + '/_temp/**/*')
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest(build));
 });
 
 gulp.task('copyvendor', function() {
@@ -137,7 +138,7 @@ gulp.task('copyvendor', function() {
 
 // 使用说明
 gulp.task('help', function() {
-    console.log(chalk.white.bgCyan.bold('\n\nF2E-workflow使用说明：\n\n gulp && gulp help：帮助信息\n gulp dev：不带本地服务器的开发\n gulp sdev：带本地服务器的开发\n gulp build：压缩JS CSS代码，并且加时间戳,压缩图片\n gulp cleanbuild：删除dist文件夹\n\n更多详细的请配置gulpfile.js文件\n\n'));
+    console.log(chalk.white.bgCyan.bold('\n\nF2E-workflow使用说明：\n\n gulp && gulp help：帮助信息\n gulp dev：不带本地服务器的开发\n gulp sdev：带本地服务器的开发\n gulp build：压缩JS CSS代码,压缩图片\n gulp cleanbuild：删除dist文件夹\n\n更多详细的请配置gulpfile.js文件\n\n'));
 });
 
 
@@ -166,7 +167,7 @@ gulp.task('build', ['copy'], function() {
 });
 // clean build
 gulp.task('cleanbuild', function() {
-    return gulp.src('./dist', {
+    return gulp.src(build, {
             read: false
         }) // much faster
         .pipe(rimraf());

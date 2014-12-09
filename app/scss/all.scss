@@ -1,10 +1,10 @@
 ﻿@charset "utf-8";
 @import "base/normalize";
-/*更改盒模型规范*/
+html {
+  box-sizing: border-box;
+}
 *, *:before, *:after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+  box-sizing: inherit;
 }
 
 body {
