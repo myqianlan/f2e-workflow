@@ -50,7 +50,8 @@ var imagemin = require('gulp-imagemin');
 var rimraf = require('gulp-rimraf');
 // 输出美化
 var chalk = require('chalk');
-
+// 自动生成雪碧图及其CSS
+var spritesmith = require('gulp.spritesmith');
 
 
 // Server
@@ -73,6 +74,17 @@ gulp.task('server', function() {
     http.createServer(app).listen(port);
     open(protocol + '://' + host + ':' + port + '/index.html');
 });
+
+// 自动生成雪碧图及其CSS
+gulp.task('sprite', function() {
+    var spriteData = gulp.src(root + '/sprite/img/*.png').pipe(spritesmith({
+        imgName: 'sprites.png',
+        cssName: 'sprite.css',
+        // algorithm: 'diagonal'
+    }));
+    spriteData.pipe(gulp.dest(root + '/sprite'));
+});
+
 // clean css files
 gulp.task('cleancss', function() {
     return gulp.src(root + '/css', {
