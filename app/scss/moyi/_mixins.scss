@@ -184,3 +184,22 @@
         border-bottom: $size dashed transparent;
     }
 }
+
+// http://www.css3files.com/font/
+// 1 The eot fontfile. Can be omitted if you don`t want to support Internet Explorer prior to version 9 (including semicolon).
+// 2 Can also be omitted for Internet Explorer < 9. ?iefix prevents IE6 from interpreting all of the following. If the whole IE family (6 to 9) should be supported, 1 and 2 are needed.
+// 3 Can be omitted if iPad versions prior to iOS 4.2 shouldn’t be supported. 
+// 4 The ttf fontfile. Necessary to support (Mobile) Safari and Opera. 
+// 5 The woff fontfile for all modern browsers (best choice).
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal ) {
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
+    src: url('#{$file-path}.eot'); // 1
+    src: url('#{$file-path}.eot?#iefix')               format('eot'), // 2
+         url('#{$file-path}.svg##{$font-family}')      format('svg'), // 3
+         url('#{$file-path}.woff')                     format('woff'), // 4
+         url('#{$file-path}.ttf')                      format('truetype'); //5
+  }
+}
