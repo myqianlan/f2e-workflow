@@ -137,8 +137,24 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest(root + '/_temp/img'));
 });
 
+// 生成debug文件
+gulp.task('debugfile', ['debugcss', 'debugjs']);
+gulp.task('debugcss', function() {
+    return gulp.src(root + '/css/**/*.css')
+        .pipe(rename({
+            suffix: "-debug"
+        }))
+        .pipe(gulp.dest(root + '/_temp/css'));
+});
+gulp.task('debugjs', function() {
+    return gulp.src(root + '/js/**/*.js')
+        .pipe(rename({
+            suffix: "-debug"
+        }))
+        .pipe(gulp.dest(root + '/_temp/js'));
+});
 // 复制文件
-gulp.task('copy', ['minifyjs', 'minifycss', 'imagemin', 'copyvendor'], function() {
+gulp.task('copy', ['minifyjs', 'minifycss', 'debugfile','imagemin', 'copyvendor'], function() {
     return gulp.src(root + '/_temp/**/*')
         .pipe(gulp.dest(build));
 });

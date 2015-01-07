@@ -117,8 +117,10 @@
 }
 
 @mixin opacity($opacity) {
-    opacity: $opacity;
-    filter: alpha(opacity=#{$opacity * 100});
+  opacity: $opacity;
+  // IE8 filter
+  $opacity-ie: ($opacity * 100);
+  filter: alpha(opacity=$opacity-ie);
 }
 
 @mixin min-height($height) {
