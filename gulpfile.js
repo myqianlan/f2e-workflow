@@ -82,7 +82,8 @@ gulp.task('sprite', function() {
         cssName: 'sprite.css',
         // algorithm: 'diagonal'
     }));
-    spriteData.pipe(gulp.dest(root + '/sprite'));
+    spriteData.pipe(imagemin())
+	.pipe(gulp.dest(root + '/sprite'));
 });
 
 // clean css files

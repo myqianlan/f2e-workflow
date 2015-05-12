@@ -21,7 +21,7 @@
 
 > 2.采用gulp任务管理(需要nodejs环境)
 
-> 3.JS拟采用Browserify模块管理
+> 3.JS拟采用Requirejs模块管理
 
 ##许可
 MIT
