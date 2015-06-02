@@ -1,14 +1,3 @@
-// querystring 转为 object (json)
-        queryStringToJson: function() {
-            var pairs = location.search.slice(1).split('&');
-            var result = {};
-            for (var idx in pairs) {
-                var pair = pairs[idx].split('=');
-                if (!!pair[0]) result[pair[0].toLowerCase()] = decodeURIComponent(pair[1] || '');
-            }
-            return result;
-        }
-
 /**
  * 字符串长度截取
  * @param  {[type]} str [description]
