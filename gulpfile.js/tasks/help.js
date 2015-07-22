@@ -13,5 +13,5 @@ gulp.task('help', function() {
     +'更多详细的请配置gulpfile.js文件'
     +'\n\n';
 
-    console.log(gutil.colors.magenta.bgCyan.bold(helpmsg));
+    console.log(gutil.colors.magenta.bold(helpmsg));
 });
