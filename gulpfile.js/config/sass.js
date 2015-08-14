@@ -1,7 +1,7 @@
 var config = require("./");
 
 module.exports = {
-    autoprefixer: {browser: ["lst 2 version","ie >= 9"]},
+    autoprefixer: {browser: ["lst 3 version", ">1% in CN", "ie >= 9", "ie_mob >= 10","Android >= 4"]},
     src: config.sourceAssets + "/scss/**/*.scss",
     dest: config.sourceAssets + "/css",
     settings: {
